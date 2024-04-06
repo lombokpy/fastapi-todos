@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     # 60 minutes * 24 hours * 8 days = 8 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
     SERVER_NAME: str = config_env("DOMAIN", default="localhost")
-    SERVER_HOST: AnyHttpUrl = config_env("SERVER_HOST", default="localhost")
+    SERVER_HOST: AnyHttpUrl = config_env("SERVER_HOST", default="https://localhost/8001")
     # BACKEND_CORS_ORIGINS is a JSON-formatted list of origins
     # e.g: '["http://localhost", "http://localhost:4200", "http://localhost:3000", \
     # "http://localhost:8080", "http://local.dockertoolbox.tiangolo.com"]'
@@ -39,7 +39,7 @@ class Settings(BaseSettings):
     # for d in data:
     #     print(d)
 
-    BACKEND_CORS_ORIGINS: str = config_env("BACKEND_CORS_ORIGINS")
+    BACKEND_CORS_ORIGINS: str = config_env("BACKEND_CORS_ORIGINS", default="localhost")
 
     @field_validator("BACKEND_CORS_ORIGINS", mode="before")
     @classmethod
@@ -50,7 +50,7 @@ class Settings(BaseSettings):
             return v
         raise ValueError(v)
 
-    PROJECT_NAME: str = config_env("PROJECT_NAME")
+    PROJECT_NAME: str = config_env("PROJECT_NAME", default="FastAPI Todos")
 
     # SENTRY_DSN: Optional[HttpUrl] = None
 
@@ -60,11 +60,11 @@ class Settings(BaseSettings):
     #         return None
     #     return v
 
-    POSTGRES_HOST: str = config_env("POSTGRES_HOST")
+    POSTGRES_HOST: str = config_env("POSTGRES_HOST", default=None)
     POSTGRES_PORT: str = config_env("POSTGRES_PORT", default="5432")
-    POSTGRES_USER: str = config_env("POSTGRES_USER")
-    POSTGRES_PASS: str = config_env("POSTGRES_PASS")
-    POSTGRES_DB: str = config_env("POSTGRES_DB")
+    POSTGRES_USER: str = config_env("POSTGRES_USER", default=None)
+    POSTGRES_PASS: str = config_env("POSTGRES_PASS", default=None)
+    POSTGRES_DB: str = config_env("POSTGRES_DB", default=None)
     CONN_STR: str = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASS}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = PostgresDsn(CONN_STR)
     print(SQLALCHEMY_DATABASE_URI)
@@ -79,10 +79,10 @@ class Settings(BaseSettings):
 
     SMTP_TLS: bool = config_env("SMTP_TLS", default=True)
     SMTP_PORT: Optional[int] = config_env("SMTP_PORT", default=587)
-    SMTP_HOST: Optional[str] = config_env("SMTP_HOST")
-    SMTP_USER: Optional[str] = config_env("SMTP_USER")
-    SMTP_PASSWORD: Optional[str] = config_env("SMTP_PASSWORD")
-    EMAILS_FROM_EMAIL: Optional[EmailStr] = config_env("EMAILS_FROM_EMAIL")
+    SMTP_HOST: Optional[str] = config_env("SMTP_HOST", default=None)
+    SMTP_USER: Optional[str] = config_env("SMTP_USER", default=None)
+    SMTP_PASSWORD: Optional[str] = config_env("SMTP_PASSWORD", default=None)
+    EMAILS_FROM_EMAIL: Optional[EmailStr] = config_env("EMAILS_FROM_EMAIL", default=None)
     EMAILS_FROM_NAME: Optional[str] = None
 
     # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
@@ -94,7 +94,7 @@ class Settings(BaseSettings):
         return v
 
     EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
-    EMAIL_TEMPLATES_DIR: str = "src/templates/build"
+    EMAIL_TEMPLATES_DIR: str = "src/fastapi_todos/templates/build"
     EMAILS_ENABLED: bool = True
 
     # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
@@ -108,10 +108,9 @@ class Settings(BaseSettings):
         )
 
     EMAIL_TEST_USER: EmailStr = "test@example.com"  # type: ignore
-    FIRST_SUPERUSER: EmailStr = config_env("FIRST_SUPERUSER")
-    FIRST_SUPERUSER_PASSWORD: str = config_env("FIRST_SUPERUSER_PASSWORD")
+    FIRST_SUPERUSER: EmailStr = config_env("FIRST_SUPERUSER", default="test@example.com")
+    FIRST_SUPERUSER_PASSWORD: str = config_env("FIRST_SUPERUSER_PASSWORD", default="test")
     USERS_OPEN_REGISTRATION: bool = False
-    UPLOAD_PATH: str = config_env("UPLOAD_PATH", default="upload_files")
 
     model_config = ConfigDict(case_sensitive=True)
 
