@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 
 from auth.apiv1.handler import router as auth_router
-from uploader.apiv1.handler import router as uploader_router
 from user.apiv1.handler import router as user_router
 
 api_router = APIRouter()
