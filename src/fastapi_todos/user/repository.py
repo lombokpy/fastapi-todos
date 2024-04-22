@@ -99,6 +99,7 @@ class UserV2Repository(domain.UserRepositoryBase):
                 if field.name == "password":
                     # Assuming `get_password_hash` is a function you've defined elsewhere
                     db_obj.hashed_password = get_password_hash(value)
+                    setattr(db_obj, field.name, value)
                 else:
                     setattr(db_obj, field.name, value)
 
