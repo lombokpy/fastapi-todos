@@ -2,7 +2,6 @@ import uuid
 
 from sqlalchemy import Boolean, Column, DateTime, String, func
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
 
 from dbase.base_class import Base
 from user import domain
@@ -19,8 +18,6 @@ class User(Base):
     is_superuser = Column(Boolean(), default=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-
-    uploaded_files = relationship("UploadedFile", back_populates="user")
 
     def to_entity(self) -> domain.User:
         return domain.User(
