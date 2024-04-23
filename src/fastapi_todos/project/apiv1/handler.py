@@ -5,6 +5,7 @@ from project import usecase, repository, schemas
 from typing import Any
 from dbase import models
 from dataclasses import asdict
+import uuid
 
 
 router = APIRouter()
@@ -28,6 +29,22 @@ def create_project(
     project = schemas.ProjectBase(**asdict(project))
     project_schema_reponse = schemas.ProjectCreateReponse(
         status = 200,
+        message="success",
+        data=project
+    )
+    return project_schema_reponse
+
+@router.get("/{project_id}")
+def get_project_by_id(
+    project_id: str,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_user),
+    ucase: usecase.ProjectUsecase = Depends(project_usecase),
+):
+    project = ucase.get_project_by_id(project_id=project_id)
+    project = schemas.ProjectBase(**asdict(project))
+    project_schema_reponse = schemas.ProjectResponse(
+        status=200,
         message="success",
         data=project
     )

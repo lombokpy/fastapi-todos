@@ -13,3 +13,7 @@ class ProjectUsecase:
     def create(self, *, obj_in: domain.Project, user_id: UUID) -> domain.Project:
         project = self.repo.create(obj_in=obj_in, user_id=user_id)
         return project
+    
+    def get_project_by_id(self, *, project_id: UUID) -> Optional[domain.Project]:
+        project = self.repo.get(id=project_id)
+        return project
