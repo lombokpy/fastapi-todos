@@ -38,3 +38,7 @@ class ProjectCreateReponse(schemas.BaseResponse):
 
 class ProjectResponse(schemas.BaseResponse):
     data: ProjectBase
+
+
+class ListProjectResponse(schemas.BaseListResponse):
+    data: List[ProjectBase]
