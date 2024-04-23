@@ -69,3 +69,23 @@ def read_projects(
         **asdict(projects),
     )
     return response
+
+
+@router.put("/{project_id}")
+def update_project(
+    *,
+    db: Session = Depends(deps.get_db),
+    project_id: str,
+    project_in: schemas.ProjectUpdate,
+    # current_user: models.User = Depends(deps.get_current_active_user),
+    ucase: usecase.ProjectUsecase = Depends(project_usecase),
+):
+    project_in = project_in.to_entity()
+    project = ucase.update(id=uuid.UUID(project_id), obj_in=project_in)
+    project = schemas.ProjectInDB(**asdict(project))
+    project_schema_reponse = schemas.ProjectUpdateReponse(
+        status=200,
+        message="success",
+        data=project
+    )
+    return project_schema_reponse

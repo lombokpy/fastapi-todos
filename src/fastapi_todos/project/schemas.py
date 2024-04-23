@@ -26,6 +26,10 @@ class ProjectCreate(BaseModel):
         if hasattr(self, "updated_at"):
             en.updated_at = self.updated_at
         return en
+
+    
+class ProjectUpdate(ProjectCreate):
+    pass
     
     
 class ProjectGetRequest(ProjectCreate):
@@ -38,6 +42,15 @@ class ProjectCreateReponse(schemas.BaseResponse):
 
 class ProjectResponse(schemas.BaseResponse):
     data: ProjectBase
+
+
+class ProjectInDB(BaseModel):
+    id: Optional[UUID] = None
+    name: Optional[str] = None
+
+
+class ProjectUpdateReponse(schemas.BaseResponse):
+    data: ProjectInDB
 
 
 class ListProjectResponse(schemas.BaseListResponse):
