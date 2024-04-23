@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from core import deps
 from project import usecase, repository, schemas
@@ -6,6 +6,7 @@ from typing import Any
 from dbase import models
 from dataclasses import asdict
 import uuid
+from shared import exceptions
 
 
 router = APIRouter()
@@ -49,3 +50,22 @@ def get_project_by_id(
         data=project
     )
     return project_schema_reponse
+
+
+@router.get("/")
+def read_projects(
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_user),
+    ucase: usecase.ProjectUsecase = Depends(project_usecase),
+):
+    try:
+        projects = ucase.get_multi(skip=skip, limit=limit, user_id=current_user.id)
+    except exceptions.RepositoryException as e:
+        raise HTTPException(status_code=400, detail=e.message)
+    
+    response = schemas.ListProjectResponse(
+        **asdict(projects),
+    )
+    return response

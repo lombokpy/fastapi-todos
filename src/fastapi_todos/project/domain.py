@@ -34,7 +34,7 @@ class ProjectRepositoryBase(ABC):
         pass
 
     @abstractmethod
-    def get_multi(self, *, skip: int = 0, limit: int = 0) -> List[Project]:
+    def get_multi(self, *, skip: int = 0, limit: int = 0, user_id: UUID) -> List[Project]:
         pass
 
     @abstractmethod
@@ -47,4 +47,8 @@ class ProjectRepositoryBase(ABC):
 
     @abstractmethod
     def update(self, *, db_obj: Project, obj_id: Project) -> Project:
+        pass
+
+    @abstractmethod
+    def count(self, *, user_id: UUID) -> int:
         pass

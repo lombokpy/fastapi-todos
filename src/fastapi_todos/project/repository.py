@@ -13,8 +13,12 @@ class ProjectRepository(domain.Project):
         db_obj: models.Project = self.session.query(models.Project).filter(models.Project.id == id).first()
         return db_obj.to_entity()
 
-    def get_multi(self, *, skip: int = 0, limit: int = 0) -> List[domain.Project]:
-        return self.session(models.Project).offset(skip).limit(limit).all()
+    def get_multi(self, *, skip: int = 0, limit: int = 0, user_id: UUID) -> List[domain.Project]:
+        projects = self.session.query(models.Project).filter(
+            models.Project.user_id == user_id
+        ).offset(skip).limit(limit).all()
+        list_project = [p.to_entity() for p in projects]
+        return list_project
 
     def create(self, *, obj_in: domain.Project, user_id: UUID) -> domain.Project:
         db_obj = models.Project(name=obj_in.name, user_id=user_id)
@@ -30,3 +34,7 @@ class ProjectRepository(domain.Project):
 
     def remove(self):
         ...
+
+    def count(self, user_id: UUID):
+        total = self.session.query(models.Project).filter(models.Project.user_id == user_id).count()
+        return total
