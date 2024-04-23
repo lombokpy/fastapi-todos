@@ -10,7 +10,8 @@ class ProjectRepository(domain.Project):
         self.session = session
 
     def get(self, *, id: UUID) -> domain.Project:
-        return self.session.query(models.Project).filter(models.Project.id == id).first()
+        db_obj: models.Project = self.session.query(models.Project).filter(models.Project.id == id).first()
+        return db_obj.to_entity()
 
     def get_multi(self, *, skip: int = 0, limit: int = 0) -> List[domain.Project]:
         return self.session(models.Project).offset(skip).limit(limit).all()
