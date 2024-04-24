@@ -77,7 +77,7 @@ def update_project(
     db: Session = Depends(deps.get_db),
     project_id: str,
     project_in: schemas.ProjectUpdate,
-    # current_user: models.User = Depends(deps.get_current_active_user),
+    current_user: models.User = Depends(deps.get_current_active_user),
     ucase: usecase.ProjectUsecase = Depends(project_usecase),
 ):
     project_in = project_in.to_entity()
