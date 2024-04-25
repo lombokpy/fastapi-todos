@@ -21,6 +21,7 @@ def create_todo(
     todo_in: schemas.TodoCreate,
     project_id: str,
     ucase: usecase.TodoUsecase = Depends(todo_usecase),
+    current_user: models.User = Depends(deps.get_current_active_user),
 ):
     obj_in = todo_in.to_entity()
     todo = ucase.create_todo(obj_in=obj_in, project_id=project_id)
