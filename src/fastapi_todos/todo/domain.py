@@ -12,7 +12,7 @@ class Todo:
     id: UUID = field(default=None)
     title: Optional[str] = field(default=None)
     description: Optional[str] = field(default=None)
-    is_completed: Optional[bool] = field(default=None)
+    done: Optional[bool] = field(default=None)
     started_at: Optional[datetime] = field(default=None)
     ended_at: Optional[datetime] = field(default=None)
     created_at: Optional[datetime] = field(default=None)

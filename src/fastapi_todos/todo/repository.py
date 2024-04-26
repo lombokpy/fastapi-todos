@@ -12,7 +12,8 @@ class TodoRepository(domain.Todo):
         self.session = session
 
     def get(self, *, id: UUID) -> domain.Todo:
-        pass
+        todo: models.Todo = self.session.query(models.Todo).filter(models.Todo.id == id).first()
+        return todo.to_entity()
 
     def get_multi(self, *, skip: int = 0, limit: int = 0, project_id: UUID) -> List[domain.Todo]:
         pass

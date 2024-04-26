@@ -14,7 +14,7 @@ class Todo(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     title = Column(String, index=True)
     description = Column(String, index=True)
-    is_completed = Column(Boolean, default=False)
+    done = Column(Boolean, default=False)
     started_at = Column(DateTime(timezone=True), server_default=None)
     ended_at = Column(DateTime(timezone=True), server_default=None)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -27,7 +27,7 @@ class Todo(Base):
         id=uuid.UUID(str(self.id)),
         title=self.title,
         description=self.description,
-        is_completed=self.is_completed,
+        done=self.done,
         started_at=self.started_at,
         ended_at=self.ended_at,
         created_at=self.created_at,

@@ -9,3 +9,6 @@ class TodoUsecase:
 
     def create_todo(self, *, obj_in: domain.Todo, project_id: UUID) -> domain.Todo:
         return self.repo.create(obj_in=obj_in, project_id=project_id)
+    
+    def get_todo(self, *, id: UUID) -> domain.Todo:
+        return self.repo.get(id=id)
