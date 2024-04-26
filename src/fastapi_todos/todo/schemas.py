@@ -11,7 +11,7 @@ class TodoBase(BaseModel):
     id: Optional[UUID] = None
     title: Optional[str] = None
     description: Optional[str] = None
-    is_completed: Optional[bool] = None
+    done: Optional[bool] = None
     started_at: Optional[datetime] = None
     ended_at: Optional[datetime] = None
     created_at: Optional[datetime] = None
@@ -42,7 +42,7 @@ class TodoInDb(BaseModel):
     id: Optional[UUID] = None
     title: Optional[str] = None
     description: Optional[str] = None
-    is_completed: Optional[bool] = None
+    done: Optional[bool] = None
     started_at: Optional[datetime] = None
     ended_at: Optional[datetime] = None
     project_id: UUID
