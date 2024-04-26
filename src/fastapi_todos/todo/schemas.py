@@ -50,3 +50,7 @@ class TodoInDb(BaseModel):
 
 class TodoCreateResponse(schemas.BaseResponse):
     data: TodoInDb
+
+
+class TodoGetResponse(schemas.BaseResponse):
+    data: TodoInDb

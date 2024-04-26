@@ -32,3 +32,17 @@ def create_todo(
         data=todo
     )
     return todo_schema_reponse
+
+@router.get("/{todo_id}")
+def get_todo_by_id(
+    todo_id: str,
+    ucase: usecase.TodoUsecase = Depends(todo_usecase)
+):
+    todo = ucase.get_todo(id=todo_id)
+    todo = schemas.TodoInDb(**asdict(todo))
+    todo_schema_reponse = schemas.TodoGetResponse(
+        status=200,
+        message="success",
+        data=todo
+    )
+    return todo_schema_reponse
