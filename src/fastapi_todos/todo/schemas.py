@@ -54,3 +54,7 @@ class TodoCreateResponse(schemas.BaseResponse):
 
 class TodoGetResponse(schemas.BaseResponse):
     data: TodoInDb
+
+
+class TodoListResponse(schemas.BaseListResponse):
+    data: List[TodoInDb]
