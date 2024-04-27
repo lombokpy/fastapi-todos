@@ -30,23 +30,24 @@ class ProjectCreate(BaseModel):
     
 class ProjectUpdate(ProjectCreate):
     pass
-    
-    
-class ProjectGetRequest(ProjectCreate):
-    pass
 
 
 class ProjectCreateReponse(schemas.BaseResponse):
     data: ProjectBase
 
 
-class ProjectResponse(schemas.BaseResponse):
-    data: ProjectBase
-
-
 class ProjectInDB(BaseModel):
     id: Optional[UUID] = None
     name: Optional[str] = None
+    user_id: Optional[UUID] = None
+
+
+class ProjectResponse(schemas.BaseResponse):
+    data: ProjectInDB
+
+
+class ProjectGetRequest(ProjectInDB):
+    pass
 
 
 class ProjectUpdateReponse(schemas.BaseResponse):
@@ -54,4 +55,4 @@ class ProjectUpdateReponse(schemas.BaseResponse):
 
 
 class ListProjectResponse(schemas.BaseListResponse):
-    data: List[ProjectBase]
+    data: List[ProjectInDB]

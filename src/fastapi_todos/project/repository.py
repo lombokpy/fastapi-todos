@@ -18,7 +18,10 @@ class ProjectRepository(domain.Project):
         projects = self.session.query(models.Project).filter(
             models.Project.user_id == user_id
         ).offset(skip).limit(limit).all()
-        list_project = [p.to_entity() for p in projects]
+        list_project = []
+        for p in projects:
+            project: models.Project = p.to_entity()
+            list_project.append(project)
         return list_project
 
     def create(self, *, obj_in: domain.Project, user_id: UUID) -> domain.Project:

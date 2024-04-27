@@ -2,6 +2,9 @@ from typing import Optional, List
 from project import domain
 from uuid import UUID
 from shared import exceptions, paginator
+from dbase import models
+from project import schemas
+from dataclasses import asdict
 
 
 class ProjectUsecase:
@@ -24,8 +27,14 @@ class ProjectUsecase:
         return project
     
     def get_project_by_id(self, *, project_id: UUID) -> Optional[domain.Project]:
-        project = self.repo.get(id=project_id)
-        return project
+        projects: models.Project = self.repo.get(id=project_id)
+        # list_project = [schemas.ProjectInDB(**asdict(p.to_entity())) for p in projects]
+        list_project = []
+        for p in projects:
+            project = p.to_entity()
+            p = schemas.ProjectInDB(**asdict(project))
+            list_project.append(p)
+        return list_project
 
     def update(self, *, id: UUID, obj_in: domain.Project) -> domain.Project:
         project = self.repo.update(id=id, obj_in=obj_in)

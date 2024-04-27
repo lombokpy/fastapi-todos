@@ -43,7 +43,7 @@ def get_project_by_id(
     ucase: usecase.ProjectUsecase = Depends(project_usecase),
 ):
     project = ucase.get_project_by_id(project_id=project_id)
-    project = schemas.ProjectBase(**asdict(project))
+    project = schemas.ProjectInDB(**asdict(project))
     project_schema_reponse = schemas.ProjectResponse(
         status=200,
         message="success",
