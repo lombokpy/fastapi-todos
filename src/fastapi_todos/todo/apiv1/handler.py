@@ -36,6 +36,7 @@ def create_todo(
 @router.get("/{todo_id}")
 def get_todo_by_id(
     todo_id: str,
+    current_user: models.User = Depends(deps.get_current_active_user),
     ucase: usecase.TodoUsecase = Depends(todo_usecase)
 ):
     todo = ucase.get_todo(id=todo_id)
