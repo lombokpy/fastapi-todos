@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from core import deps
 from todo import usecase, repository, schemas
@@ -39,13 +39,16 @@ def get_todo_by_id(
     current_user: models.User = Depends(deps.get_current_active_user),
     ucase: usecase.TodoUsecase = Depends(todo_usecase)
 ):
-    todo = ucase.get_todo(id=todo_id)
-    todo = schemas.TodoInDb(**asdict(todo))
-    todo_schema_reponse = schemas.TodoGetResponse(
-        status=200,
-        message="success",
-        data=todo
-    )
+    try:
+        todo = ucase.get_todo(id=todo_id)
+        todo = schemas.TodoInDb(**asdict(todo))
+        todo_schema_reponse = schemas.TodoGetResponse(
+            status=status.HTTP_200_OK,
+            message="success",
+            data=todo
+        )
+    except:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="data is not found")
     return todo_schema_reponse
 
 @router.get("/")
