@@ -27,14 +27,9 @@ class ProjectUsecase:
         return project
     
     def get_project_by_id(self, *, project_id: UUID) -> Optional[domain.Project]:
-        projects: models.Project = self.repo.get(id=project_id)
+        project: models.Project = self.repo.get(id=project_id)
         # list_project = [schemas.ProjectInDB(**asdict(p.to_entity())) for p in projects]
-        list_project = []
-        for p in projects:
-            project = p.to_entity()
-            p = schemas.ProjectInDB(**asdict(project))
-            list_project.append(p)
-        return list_project
+        return project
 
     def update(self, *, id: UUID, obj_in: domain.Project) -> domain.Project:
         project = self.repo.update(id=id, obj_in=obj_in)
