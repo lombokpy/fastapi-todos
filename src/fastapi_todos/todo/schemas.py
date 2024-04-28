@@ -27,6 +27,23 @@ class TodoCreate(BaseModel):
     def to_entity(self) -> domain.Todo:
         en = domain.Todo(
             title=self.title,
+        )
+        if hasattr(self, "id"):
+            en.id = self.id
+        if hasattr(self, "created_at"):
+            en.created_at = self.created_at
+        if hasattr(self, "updated_at"):
+            en.updated_at = self.updated_at
+        return en
+
+
+class TodoUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+
+    def to_entity(self):
+        en = domain.Todo(
+            title=self.title,
             description=self.description
         )
         if hasattr(self, "id"):
@@ -58,3 +75,7 @@ class TodoGetResponse(schemas.BaseResponse):
 
 class TodoListResponse(schemas.BaseListResponse):
     data: List[TodoInDb]
+
+
+class TodoUpdateResponse(schemas.BaseResponse):
+    data: TodoInDb

@@ -7,6 +7,7 @@ from dbase import models
 from dataclasses import asdict
 import uuid
 from shared import exceptions
+from todo import domain
 
 router = APIRouter()
 
@@ -21,7 +22,7 @@ def create_todo(
     todo_in: schemas.TodoCreate,
     project_id: str,
     ucase: usecase.TodoUsecase = Depends(todo_usecase),
-    current_user: models.User = Depends(deps.get_current_active_user),
+    # current_user: models.User = Depends(deps.get_current_active_user),
 ):
     obj_in = todo_in.to_entity()
     todo = ucase.create_todo(obj_in=obj_in, project_id=project_id)
@@ -65,3 +66,22 @@ def read_todos(
         **asdict(todos),
     )
     return response
+
+
+@router.put("/{todo_id}")
+def update_todo(
+    todo_id: str,
+    todo_in: schemas.TodoUpdate,
+    ucase: usecase.TodoUsecase = Depends(todo_usecase),
+    current_user: models.User = Depends(deps.get_current_active_user),
+):
+    todo_in = todo_in.to_entity()
+    todo = ucase.update_todo(id=todo_id, obj_in=todo_in)
+    data = schemas.TodoInDb(**asdict(todo))
+    response = schemas.TodoUpdateResponse(
+        status=status.HTTP_200_OK,
+        message="Todo was updated",
+        data=data
+    )
+    return response
+    

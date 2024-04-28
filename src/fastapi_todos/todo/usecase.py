@@ -21,3 +21,6 @@ class TodoUsecase:
         return domain.BaseListTodoReponse(
             status=200, data=todos, pagination=pagination, message="Success"
         )
+    
+    def update_todo(self, *, id: UUID, obj_in: domain.Todo) -> domain.Todo:
+        return self.repo.update(id=id, obj_in=obj_in)
