@@ -13,8 +13,10 @@ class TodoRepository(domain.Todo):
 
     def get(self, *, id: UUID) -> domain.Todo:
         todo: models.Todo = self.session.query(models.Todo).filter(models.Todo.id == id).first()
-        return todo.to_entity()
-
+        if todo is not None:
+            return todo.to_entity()
+        return todo
+    
     def get_multi(self, *, skip: int = 0, limit: int = 0, project_id: UUID) -> List[domain.Todo]:
         todos: models.Todo = self.session.query(models.Todo).filter(
             models.Todo.project_id == project_id
