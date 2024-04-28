@@ -33,3 +33,17 @@ class TodoRepository(domain.Todo):
         self.session.add(db_obj)
         self.session.commit()
         return db_obj.to_entity()
+    
+    def update(self, *, id: UUID, obj_in: domain.Todo) -> domain.Todo:
+        db_obj: models.Todo = self.session.query(models.Todo).filter(models.Todo.id == id).first()
+        if not db_obj:
+            raise Exception("Todo not found")
+        
+        for field in dataclasses.fields(obj_in):
+            value = getattr(obj_in, field.name)
+            if value is not None:
+                setattr(db_obj, field.name, value)
+        self.session.add(db_obj)
+        self.session.commit()
+        self.session.refresh(db_obj)
+        return db_obj.to_entity()
