@@ -63,6 +63,16 @@ class TodoDoneRequest(BaseModel):
             done=self.done
         )
         return en
+    
+
+class TodoStartedAtRequest(BaseModel):
+    started_at: Optional[datetime] = None
+
+    def to_entity(self):
+        en = domain.Todo(
+            started_at=self.started_at
+        )
+        return en
 
 
 class TodoInDb(BaseModel):
@@ -97,3 +107,7 @@ class TodoDeleteResponse(schemas.BaseResponse):
 
 class TodoDoneReponse(schemas.BaseResponse):
     data: TodoInDb
+
+
+class TodoStartedAtReponse(TodoDoneReponse):
+    pass

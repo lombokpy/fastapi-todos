@@ -30,3 +30,6 @@ class TodoUsecase:
     
     def done(self, *, id: UUID, obj_in: domain.Todo) -> domain.Todo:
         return self.repo.done(id=id, obj_in=obj_in)
+    
+    def start_timer(self, *, id: UUID, obj_in: domain.Todo) -> domain.Todo:
+        return self.repo.start(id=id, obj_in=obj_in)

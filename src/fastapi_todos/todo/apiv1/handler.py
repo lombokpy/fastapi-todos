@@ -100,6 +100,23 @@ def todo_done(
     )
     return response
 
+@router.put("/{todo_id}/start")
+def todo_timer_start(
+    todo_id: str,
+    todo_in: schemas.TodoStartedAtRequest,
+    ucase: usecase.TodoUsecase = Depends(todo_usecase),
+    current_user: models.User = Depends(deps.get_current_active_user),
+):
+    todo_in = todo_in.to_entity()
+    todo = ucase.start_timer(id=todo_id, obj_in=todo_in)
+    todo = schemas.TodoInDb(**asdict(todo))
+    response = schemas.TodoStartedAtReponse(
+        status=status.HTTP_202_ACCEPTED,
+        message="Timer successfully started",
+        data=todo
+    )
+    return response
+
 @router.delete("/{todo_id}")
 def delete_todo(
     todo_id: str,
