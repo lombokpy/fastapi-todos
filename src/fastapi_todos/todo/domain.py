@@ -63,3 +63,7 @@ class TodoRepositoryBase(ABC):
 
     def start(self, *, obj_in: Todo) -> Todo:
         pass
+
+    def stop(self, *, obj_in: Todo) -> Todo:
+        pass
+
