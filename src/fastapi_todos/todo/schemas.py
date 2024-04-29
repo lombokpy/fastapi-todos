@@ -79,3 +79,7 @@ class TodoListResponse(schemas.BaseListResponse):
 
 class TodoUpdateResponse(schemas.BaseResponse):
     data: TodoInDb
+
+
+class TodoDeleteResponse(schemas.BaseResponse):
+    data: Optional[str] = None

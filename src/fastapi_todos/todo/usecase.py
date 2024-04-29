@@ -24,3 +24,6 @@ class TodoUsecase:
     
     def update_todo(self, *, id: UUID, obj_in: domain.Todo) -> domain.Todo:
         return self.repo.update(id=id, obj_in=obj_in)
+    
+    def delete_todo(self, *, id: UUID):
+        return self.repo.remove(id=id)

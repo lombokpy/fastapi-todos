@@ -47,3 +47,9 @@ class TodoRepository(domain.Todo):
         self.session.commit()
         self.session.refresh(db_obj)
         return db_obj.to_entity()
+    
+    def remove(self, id: UUID) -> domain.Todo:
+        db_obj: models.Todo = self.session.query(models.Todo).filter(models.Todo.id == id).first()
+        self.session.delete(db_obj)
+        self.session.commit()
+        return db_obj.to_entity()

@@ -6,8 +6,6 @@ from typing import Any
 from dbase import models
 from dataclasses import asdict
 import uuid
-from shared import exceptions
-from todo import domain
 
 router = APIRouter()
 
@@ -85,3 +83,18 @@ def update_todo(
     )
     return response
     
+
+@router.delete("/{todo_id}")
+def delete_todo(
+    todo_id: str,
+    ucase: usecase.TodoUsecase = Depends(todo_usecase),
+    current_user: models.User = Depends(deps.get_current_active_user),
+):
+    ucase.delete_todo(id=todo_id)
+    # todo = schemas.TodoInDb(**asdict(todo))
+    response = schemas.TodoDeleteResponse(
+        status=status.HTTP_200_OK,
+        message="Todo was deleted",
+        data=None
+    )
+    return response
