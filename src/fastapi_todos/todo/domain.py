@@ -56,3 +56,7 @@ class TodoRepositoryBase(ABC):
     @abstractmethod
     def count(self, *, project_id: UUID) -> int:
         pass
+
+    @abstractmethod
+    def done(self, *, obj_in: Todo) -> Todo:
+        pass

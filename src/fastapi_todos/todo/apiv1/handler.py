@@ -82,7 +82,22 @@ def update_todo(
         data=data
     )
     return response
-    
+
+@router.put("/{todo_id}/done")
+def todo_done(
+    todo_id: str,
+    todo_in: schemas.TodoDoneRequest,
+    ucase: usecase.TodoUsecase = Depends(todo_usecase)
+):
+    todo_in = todo_in.to_entity()
+    todo = ucase.done(id=todo_id, obj_in=todo_in)
+    todo = schemas.TodoInDb(**asdict(todo))
+    response = schemas.TodoDoneReponse(
+        status = status.HTTP_202_ACCEPTED,
+        message="Todo item successfully marked as completed.",
+        data=todo
+    )
+    return response
 
 @router.delete("/{todo_id}")
 def delete_todo(
@@ -91,7 +106,6 @@ def delete_todo(
     current_user: models.User = Depends(deps.get_current_active_user),
 ):
     ucase.delete_todo(id=todo_id)
-    # todo = schemas.TodoInDb(**asdict(todo))
     response = schemas.TodoDeleteResponse(
         status=status.HTTP_200_OK,
         message="Todo was deleted",

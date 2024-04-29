@@ -55,6 +55,16 @@ class TodoUpdate(BaseModel):
         return en
 
 
+class TodoDoneRequest(BaseModel):
+    done: Optional[bool] = None
+
+    def to_entity(self):
+        en = domain.Todo(
+            done=self.done
+        )
+        return en
+
+
 class TodoInDb(BaseModel):
     id: Optional[UUID] = None
     title: Optional[str] = None
@@ -83,3 +93,7 @@ class TodoUpdateResponse(schemas.BaseResponse):
 
 class TodoDeleteResponse(schemas.BaseResponse):
     data: Optional[str] = None
+
+
+class TodoDoneReponse(schemas.BaseResponse):
+    data: TodoInDb
