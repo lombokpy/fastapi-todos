@@ -87,7 +87,8 @@ def update_todo(
 def todo_done(
     todo_id: str,
     todo_in: schemas.TodoDoneRequest,
-    ucase: usecase.TodoUsecase = Depends(todo_usecase)
+    ucase: usecase.TodoUsecase = Depends(todo_usecase),
+    current_user: models.User = Depends(deps.get_current_active_user),
 ):
     todo_in = todo_in.to_entity()
     todo = ucase.done(id=todo_id, obj_in=todo_in)
