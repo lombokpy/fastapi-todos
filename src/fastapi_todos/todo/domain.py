@@ -60,3 +60,6 @@ class TodoRepositoryBase(ABC):
     @abstractmethod
     def done(self, *, obj_in: Todo) -> Todo:
         pass
+
+    def start(self, *, obj_in: Todo) -> Todo:
+        pass
