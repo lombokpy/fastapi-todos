@@ -34,3 +34,6 @@ class ProjectUsecase:
     def update(self, *, id: UUID, obj_in: domain.Project) -> domain.Project:
         project = self.repo.update(id=id, obj_in=obj_in)
         return project
+    
+    def delete_project(self, *, id: UUID) -> domain.Project:
+        return self.repo.remove(id=id)

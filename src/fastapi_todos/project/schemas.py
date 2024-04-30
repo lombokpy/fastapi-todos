@@ -56,3 +56,7 @@ class ProjectUpdateReponse(schemas.BaseResponse):
 
 class ListProjectResponse(schemas.BaseListResponse):
     data: List[ProjectInDB]
+
+
+class ProjectDeleteResponse(schemas.BaseResponse):
+    data: ProjectInDB = None

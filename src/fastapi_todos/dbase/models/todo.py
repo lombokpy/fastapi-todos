@@ -19,8 +19,7 @@ class Todo(Base):
     ended_at = Column(DateTime(timezone=True), server_default=None)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    project_id = Column(UUID(as_uuid=True), ForeignKey("projects.id"), nullable=False)
-    project = relationship("Project", backref="todos")
+    project_id = Column(UUID(as_uuid=True), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False)
 
     def to_entity(self) -> domain.Todo:
         return domain.Todo(
