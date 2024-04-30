@@ -17,6 +17,7 @@ class Project(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     user = relationship("User", backref="projects")
+    todos = relationship("Todo", cascade="all, delete-orphan")
 
     def to_entity(self) -> domain.Project:
         return domain.Project(

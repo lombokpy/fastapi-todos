@@ -89,3 +89,20 @@ def update_project(
         data=project
     )
     return project_schema_reponse
+
+@router.delete("/{project_id}")
+def delete_project(
+    *,
+    db: Session = Depends(deps.get_db),
+    project_id: str,
+    current_user: models.User = Depends(deps.get_current_active_user),
+    ucase: usecase.ProjectUsecase = Depends(project_usecase),
+):
+    project = ucase.delete_project(id=project_id)
+    data = schemas.ProjectGetRequest(**asdict(project))
+    response = schemas.ProjectDeleteResponse(
+        status=200,
+        message="success",
+        data=data
+    )
+    return response

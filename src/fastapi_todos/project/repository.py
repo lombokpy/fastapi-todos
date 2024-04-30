@@ -44,8 +44,11 @@ class ProjectRepository(domain.Project):
         self.session.refresh(db_obj)
         return db_obj.to_entity()
 
-    def remove(self):
-        ...
+    def remove(self, id: UUID) -> domain.Project:
+        db_obj: models.Project = self.session.query(models.Project).filter(models.Project.id == id).first()
+        self.session.delete(db_obj)
+        self.session.commit()
+        return db_obj.to_entity()
 
     def count(self, user_id: UUID):
         total = self.session.query(models.Project).filter(models.Project.user_id == user_id).count()
