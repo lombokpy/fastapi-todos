@@ -12,6 +12,8 @@ class ProjectRepository(domain.Project):
 
     def get(self, *, id: UUID) -> domain.Project:
         db_obj: models.Project = self.session.query(models.Project).filter(models.Project.id == id).first()
+        if not db_obj:
+            return None
         return db_obj.to_entity()
 
     def get_multi(self, *, skip: int = 0, limit: int = 0, user_id: UUID) -> List[domain.Project]:

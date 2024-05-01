@@ -17,6 +17,8 @@ class TodoUsecase:
     def get_multi(self, *, skip: int = 0, limit: int = 0, project_id: UUID) -> List[domain.Todo]:
         total = self.repo.count(project_id=project_id)
         todos = self.repo.get_multi(skip=skip, limit=limit, project_id=project_id)
+        if todos is None:
+            return None
         pagination = paginator.paginate_data(total=total, skip=skip, limit=limit)
         return domain.BaseListTodoReponse(
             status=200, data=todos, pagination=pagination, message="Success"
