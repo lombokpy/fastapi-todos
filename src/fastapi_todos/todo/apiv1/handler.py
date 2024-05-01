@@ -59,12 +59,14 @@ def read_todos(
     current_user: models.User = Depends(deps.get_current_active_user),
     ucase: usecase.TodoUsecase = Depends(todo_usecase)
 ):
-    todos = ucase.get_multi(skip=skip, limit=limit, project_id=project_id)
-    response = schemas.TodoListResponse(
-        **asdict(todos),
-    )
-    return response
-
+    try:
+        todos = ucase.get_multi(skip=skip, limit=limit, project_id=project_id)
+        response = schemas.TodoListResponse(
+            **asdict(todos),
+        )
+        return response
+    except Exception:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="data is not found")
 
 @router.put("/{todo_id}")
 def update_todo(

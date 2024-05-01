@@ -18,6 +18,9 @@ class TodoRepository(domain.Todo):
         return todo
     
     def get_multi(self, *, skip: int = 0, limit: int = 0, project_id: UUID) -> List[domain.Todo]:
+        project = self.session.query(models.Project).filter(models.Project.id == project_id).first()
+        if project is None:
+            return None
         todos: models.Todo = self.session.query(models.Todo).filter(
             models.Todo.project_id == project_id
         ).offset(skip).limit(limit).all()
