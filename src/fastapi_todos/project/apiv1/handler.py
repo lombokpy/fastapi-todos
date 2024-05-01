@@ -43,6 +43,8 @@ def get_project_by_id(
     ucase: usecase.ProjectUsecase = Depends(project_usecase),
 ):
     project = ucase.get_project_by_id(project_id=project_id)
+    if project is None:
+        raise HTTPException(status_code=404, detail="data is not found")
     project = schemas.ProjectInDB(**asdict(project))
     project_schema_reponse = schemas.ProjectResponse(
         status=200,
@@ -50,7 +52,6 @@ def get_project_by_id(
         data=project
     )
     return project_schema_reponse
-
 
 @router.get("/")
 def read_projects(
