@@ -13,3 +13,10 @@ db-upgrade:
 
 db-prestart:
 	PYTHONPATH=src/fastapi_todos python ./src/fastapi_todos/initial_data.py
+
+run-test:
+ifdef dst
+	PYTHONPATH=src/fastapi_todos python -m pytest $(dst) -v
+else
+	PYTHONPATH=src/fastapi_todos python -m pytest -v
+endif
